@@ -126,5 +126,20 @@ final class TypographyPropagationTests: XCTestCase {
 
     XCTAssertEqual(config.mathStyle, mathStyle)
   }
+
+  func testUnorderedListStyleBuilderPreservesMarkerLayout() {
+    let listStyle = MarkdownRenderConfig.MarkdownUnorderedListStyle(
+      markerColor: .red,
+      markerSize: 5,
+      markerColumnWidth: 12,
+      markerSpacing: 4,
+      itemSpacing: 6
+    )
+    let config = MarkdownRenderConfig.default
+      .withUnorderedListStyle(value: listStyle)
+      .withBlockSpacing(value: 12)
+
+    XCTAssertEqual(config.unorderedListStyle, listStyle)
+  }
 }
 #endif

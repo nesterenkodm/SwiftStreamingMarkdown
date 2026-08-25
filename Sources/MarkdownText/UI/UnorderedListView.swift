@@ -10,11 +10,12 @@ struct UnorderedListView: View {
 
   let items: [MarkdownListItem]
   let nestedLevel: Int
+  @Environment(\.markdownConfig) var config: MarkdownRenderConfig
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 8, content: {
+    VStack(alignment: .leading, spacing: config.unorderedListStyle.itemSpacing, content: {
       ForEach(0..<items.count, id: \.self) { idx in
-        HStack(alignment: .centerOfFirstLine, spacing: 1) {
+        HStack(alignment: .centerOfFirstLine, spacing: config.unorderedListStyle.markerSpacing) {
           bulletView(forListItem: items[idx])
           if let firstChild = items[idx].children.first {
             if case .paragraph(_, let contents) = firstChild {
@@ -44,22 +45,28 @@ struct UnorderedListView: View {
         Image(systemName: checkbox == .checked ? "checkmark.square.fill" : "square")
           .resizable()
           .frame(width: 12, height: 12)
-          .foregroundStyle( Color.Theme.Foreground.Primary.Primary450)
+          .foregroundStyle(config.unorderedListStyle.markerColor)
           .transition(.opacity)
       } else if nestedLevel % 2 == 0 {
         Image(systemName: "circle.fill")
           .resizable()
-          .frame(width: 4, height: 4)
-          .foregroundStyle( Color.Theme.Foreground.Primary.Primary450)
+          .frame(
+            width: config.unorderedListStyle.markerSize,
+            height: config.unorderedListStyle.markerSize
+          )
+          .foregroundStyle(config.unorderedListStyle.markerColor)
           .transition(.opacity)
       } else {
         Image(systemName: "circle")
           .resizable()
-          .frame(width: 4, height: 4)
-          .foregroundStyle( Color.Theme.Foreground.Primary.Primary450)
+          .frame(
+            width: config.unorderedListStyle.markerSize,
+            height: config.unorderedListStyle.markerSize
+          )
+          .foregroundStyle(config.unorderedListStyle.markerColor)
           .transition(.opacity)
       }
-    }.frame(width: 22.0)
+    }.frame(width: config.unorderedListStyle.markerColumnWidth)
   }
 
   private func listItemAccessibilityLabel(for content: String, at index: Int, checkbox: MarkdownListItem.Checkbox?) -> String {

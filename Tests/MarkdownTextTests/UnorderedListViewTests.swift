@@ -37,6 +37,29 @@ final class UnorderedListViewTests: SnapshotTestCase {
   }
 
   @MainActor
+  func testUnorderedListViewWithCustomMarkerStyle() async throws {
+    let parser = MarkdownParserImpl()
+    let document = await parser.parse(text: "- Carbon\n- Hydrogen\n- Oxygen")
+    let config = MarkdownRenderConfig(
+      unorderedListStyle: .init(
+        markerColor: .red,
+        markerSize: 5,
+        markerColumnWidth: 12,
+        markerSpacing: 4,
+        itemSpacing: 8
+      )
+    )
+    let renderables = document.convert(with: config)
+
+    let view = CanvasView {
+      DocumentView(renderableDocument: .init(renderables: renderables), config: config)
+        .padding()
+    }
+
+    assert(view)
+  }
+
+  @MainActor
   func testUnorderedListViewWithCitations() async throws {
     let citationMarker = "9F742443"
     let paragraphs = [

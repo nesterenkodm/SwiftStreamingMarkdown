@@ -14,6 +14,7 @@ extension MarkdownRenderConfig {
       blockQuoteStyle: blockQuoteStyle,
       headingStyle: headingStyle,
       orderedListStyle: orderedListStyle,
+      unorderedListStyle: unorderedListStyle,
       paragraphStyle: paragraphStyle,
       tableStyle: tableStyle,
       inlineStyle: inlineStyle,
@@ -34,6 +35,7 @@ extension MarkdownRenderConfig {
       blockQuoteStyle: value,
       headingStyle: headingStyle,
       orderedListStyle: orderedListStyle,
+      unorderedListStyle: unorderedListStyle,
       paragraphStyle: paragraphStyle,
       tableStyle: tableStyle,
       inlineStyle: inlineStyle,
@@ -54,6 +56,7 @@ extension MarkdownRenderConfig {
       blockQuoteStyle: blockQuoteStyle,
       headingStyle: value,
       orderedListStyle: orderedListStyle,
+      unorderedListStyle: unorderedListStyle,
       paragraphStyle: paragraphStyle,
       tableStyle: tableStyle,
       inlineStyle: inlineStyle,
@@ -74,6 +77,7 @@ extension MarkdownRenderConfig {
       blockQuoteStyle: blockQuoteStyle,
       headingStyle: headingStyle,
       orderedListStyle: value,
+      unorderedListStyle: unorderedListStyle,
       paragraphStyle: paragraphStyle,
       tableStyle: tableStyle,
       inlineStyle: inlineStyle,
@@ -87,6 +91,28 @@ extension MarkdownRenderConfig {
     )
   }
 
+  /// Returns a copy with `unorderedListStyle` replaced.
+  public func withUnorderedListStyle(value: MarkdownUnorderedListStyle) -> MarkdownRenderConfig {
+    MarkdownRenderConfig(
+      shouldAnimateText: shouldAnimateText,
+      blockQuoteStyle: blockQuoteStyle,
+      headingStyle: headingStyle,
+      orderedListStyle: orderedListStyle,
+      unorderedListStyle: value,
+      paragraphStyle: paragraphStyle,
+      tableStyle: tableStyle,
+      inlineStyle: inlineStyle,
+      mathStyle: mathStyle,
+      textContextMenu: textContextMenu,
+      citationConfig: citationConfig,
+      codeBlockConfig: codeBlockConfig,
+      blockSpacing: blockSpacing,
+      textSelectionConfig: textSelectionConfig,
+      thematicBreakColor: thematicBreakColor,
+      imageConfig: imageConfig
+    )
+  }
+
   /// Returns a copy with `paragraphStyle` replaced.
   public func withParagraphStyle(value: MarkdownTextStyle) -> MarkdownRenderConfig {
     MarkdownRenderConfig(
@@ -94,6 +120,7 @@ extension MarkdownRenderConfig {
       blockQuoteStyle: blockQuoteStyle,
       headingStyle: headingStyle,
       orderedListStyle: orderedListStyle,
+      unorderedListStyle: unorderedListStyle,
       paragraphStyle: value,
       tableStyle: tableStyle,
       inlineStyle: inlineStyle,
@@ -114,6 +141,7 @@ extension MarkdownRenderConfig {
       blockQuoteStyle: blockQuoteStyle,
       headingStyle: headingStyle,
       orderedListStyle: orderedListStyle,
+      unorderedListStyle: unorderedListStyle,
       paragraphStyle: paragraphStyle,
       tableStyle: value,
       inlineStyle: inlineStyle,
@@ -134,6 +162,7 @@ extension MarkdownRenderConfig {
       blockQuoteStyle: blockQuoteStyle,
       headingStyle: headingStyle,
       orderedListStyle: orderedListStyle,
+      unorderedListStyle: unorderedListStyle,
       paragraphStyle: paragraphStyle,
       tableStyle: tableStyle,
       inlineStyle: value,
@@ -154,6 +183,7 @@ extension MarkdownRenderConfig {
       blockQuoteStyle: blockQuoteStyle,
       headingStyle: headingStyle,
       orderedListStyle: orderedListStyle,
+      unorderedListStyle: unorderedListStyle,
       paragraphStyle: paragraphStyle,
       tableStyle: tableStyle,
       inlineStyle: inlineStyle,
@@ -176,6 +206,7 @@ extension MarkdownRenderConfig {
       blockQuoteStyle: blockQuoteStyle,
       headingStyle: headingStyle,
       orderedListStyle: orderedListStyle,
+      unorderedListStyle: unorderedListStyle,
       paragraphStyle: paragraphStyle,
       tableStyle: tableStyle,
       inlineStyle: inlineStyle,
@@ -196,6 +227,7 @@ extension MarkdownRenderConfig {
       blockQuoteStyle: blockQuoteStyle,
       headingStyle: headingStyle,
       orderedListStyle: orderedListStyle,
+      unorderedListStyle: unorderedListStyle,
       paragraphStyle: paragraphStyle,
       tableStyle: tableStyle,
       inlineStyle: inlineStyle,
@@ -216,6 +248,7 @@ extension MarkdownRenderConfig {
       blockQuoteStyle: blockQuoteStyle,
       headingStyle: headingStyle,
       orderedListStyle: orderedListStyle,
+      unorderedListStyle: unorderedListStyle,
       paragraphStyle: paragraphStyle,
       tableStyle: tableStyle,
       inlineStyle: inlineStyle,
@@ -237,6 +270,7 @@ extension MarkdownRenderConfig {
       blockQuoteStyle: blockQuoteStyle,
       headingStyle: headingStyle,
       orderedListStyle: orderedListStyle,
+      unorderedListStyle: unorderedListStyle,
       paragraphStyle: paragraphStyle,
       tableStyle: tableStyle,
       inlineStyle: inlineStyle,
@@ -257,6 +291,7 @@ extension MarkdownRenderConfig {
       blockQuoteStyle: blockQuoteStyle,
       headingStyle: headingStyle,
       orderedListStyle: orderedListStyle,
+      unorderedListStyle: unorderedListStyle,
       paragraphStyle: paragraphStyle,
       tableStyle: tableStyle,
       inlineStyle: inlineStyle,
@@ -277,6 +312,7 @@ extension MarkdownRenderConfig {
       blockQuoteStyle: blockQuoteStyle,
       headingStyle: headingStyle,
       orderedListStyle: orderedListStyle,
+      unorderedListStyle: unorderedListStyle,
       paragraphStyle: paragraphStyle,
       tableStyle: tableStyle,
       inlineStyle: inlineStyle,

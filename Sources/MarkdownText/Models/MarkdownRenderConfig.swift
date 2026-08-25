@@ -21,6 +21,8 @@ public struct MarkdownRenderConfig: Hashable, Sendable {
   public let headingStyle: MarkdownHeadingTextStyle
   /// Styling applied to ordered list items.
   public let orderedListStyle: MarkdownTextStyle
+  /// Marker styling and layout applied to unordered list items.
+  public let unorderedListStyle: MarkdownUnorderedListStyle
   /// Styling applied to paragraph text.
   public let paragraphStyle: MarkdownTextStyle
   /// Styling applied to tables.
@@ -81,6 +83,35 @@ public struct MarkdownRenderConfig: Hashable, Sendable {
     public init(inlineScale: CGFloat = 1, displayScale: CGFloat = 1) {
       self.inlineScale = inlineScale
       self.displayScale = displayScale
+    }
+  }
+
+  /// Marker styling and layout for unordered lists.
+  public struct MarkdownUnorderedListStyle: Hashable, Sendable {
+    /// Foreground color applied to bullets and task-list checkboxes.
+    public let markerColor: Color
+    /// Width and height of filled and hollow bullet markers.
+    public let markerSize: CGFloat
+    /// Width reserved for the marker before the list-item content.
+    public let markerColumnWidth: CGFloat
+    /// Horizontal spacing between the marker column and list-item content.
+    public let markerSpacing: CGFloat
+    /// Vertical spacing between adjacent list items.
+    public let itemSpacing: CGFloat
+
+    /// Create an unordered-list marker style and layout.
+    public init(
+      markerColor: Color,
+      markerSize: CGFloat = 4,
+      markerColumnWidth: CGFloat = 22,
+      markerSpacing: CGFloat = 1,
+      itemSpacing: CGFloat = 8
+    ) {
+      self.markerColor = markerColor
+      self.markerSize = markerSize
+      self.markerColumnWidth = markerColumnWidth
+      self.markerSpacing = markerSpacing
+      self.itemSpacing = itemSpacing
     }
   }
 
@@ -255,6 +286,11 @@ public struct MarkdownRenderConfig: Hashable, Sendable {
     textColor: Color.Theme.Foreground.Primary.Primary450
   )
 
+  /// Default styling for `unorderedListStyle`.
+  public static let defaultUnorderedListStyle = MarkdownUnorderedListStyle(
+    markerColor: Color.Theme.Foreground.Primary.Primary450
+  )
+
   /// Default styling for `paragraphStyle`.
   public static let defaultParagraphStyle = MarkdownTextStyle(
     textFonts: Typography.baseTextFonts,
@@ -293,6 +329,7 @@ public struct MarkdownRenderConfig: Hashable, Sendable {
     blockQuoteStyle: MarkdownTextStyle = MarkdownRenderConfig.defaultBlockQuoteStyle,
     headingStyle: MarkdownHeadingTextStyle = MarkdownRenderConfig.defaultHeadingStyle,
     orderedListStyle: MarkdownTextStyle = MarkdownRenderConfig.defaultOrderedListStyle,
+    unorderedListStyle: MarkdownUnorderedListStyle = MarkdownRenderConfig.defaultUnorderedListStyle,
     paragraphStyle: MarkdownTextStyle = MarkdownRenderConfig.defaultParagraphStyle,
     tableStyle: MarkdownTableTextStyle = MarkdownRenderConfig.defaultTableStyle,
     inlineStyle: MarkdownInlineTextStyle = MarkdownRenderConfig.defaultInlineStyle,
@@ -309,6 +346,7 @@ public struct MarkdownRenderConfig: Hashable, Sendable {
     self.blockQuoteStyle = blockQuoteStyle
     self.headingStyle = headingStyle
     self.orderedListStyle = orderedListStyle
+    self.unorderedListStyle = unorderedListStyle
     self.paragraphStyle = paragraphStyle
     self.tableStyle = tableStyle
     self.inlineStyle = inlineStyle
