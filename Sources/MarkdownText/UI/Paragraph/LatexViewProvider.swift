@@ -40,6 +40,18 @@ extension LatexAttachmentData {
 
 // MARK: - Latex View Provider
 
+enum LatexAttachmentLayout {
+  static func baselineOffset(
+    displayAscent: CGFloat,
+    displayDescent: CGFloat,
+    attachmentHeight: CGFloat
+  ) -> CGFloat {
+    let displayHeight = displayAscent + displayDescent
+    let bottomPadding = max(0, attachmentHeight - displayHeight) / 2
+    return -(displayDescent + bottomPadding)
+  }
+}
+
 final class LatexViewProvider: NSTextAttachmentViewProvider {
   private let latex: String
   private let fontSize: CGFloat
@@ -107,13 +119,23 @@ final class LatexViewProvider: NSTextAttachmentViewProvider {
     }
     #if canImport(UIKit)
     mathLabel.sizeToFit()
+    mathLabel.layoutIfNeeded()
     let size = mathLabel.bounds.size
     #elseif canImport(AppKit)
     let size = mathLabel.intrinsicContentSize
+    mathLabel.layoutSubtreeIfNeeded()
     #endif
     let height = size.height.rounded(.up) + 1.0
-    let font = attributes[.font] as? MDFont ?? MDFont.systemFont(ofSize: fontSize)
-    let yOffset = (font.xHeight - height) / 2.0
+    let yOffset: CGFloat
+    if let displayList = mathLabel.displayList {
+      yOffset = LatexAttachmentLayout.baselineOffset(
+        displayAscent: displayList.ascent,
+        displayDescent: displayList.descent,
+        attachmentHeight: height
+      )
+    } else {
+      yOffset = 0
+    }
     return CGRect(x: 0, y: yOffset, width: size.width.rounded(.up), height: height)
   }
 }

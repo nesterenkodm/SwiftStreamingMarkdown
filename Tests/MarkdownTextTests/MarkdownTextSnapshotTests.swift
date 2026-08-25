@@ -57,6 +57,8 @@ final class MarkdownTextSnapshotTests: SnapshotTestCase {
 
   func testMarkdownWithInlineLatex_uikit() async throws {
     let text = """
+    Baseline comparison: plain \\(x\\), superscript \\(x^2\\), subscript \\(x_2\\), and both \\(x_2^2\\).
+
     This double integral:
     - Sweeps across a rectangular region from \\( \\boxed{x = 0} \\) to \\( \\pi \\), and \\( y = 1 \\) to \\( e \\)
     - Combines a sine of a product \\( xy \\), a logarithmic denominator, and a cosine term multiplied by a polynomial
