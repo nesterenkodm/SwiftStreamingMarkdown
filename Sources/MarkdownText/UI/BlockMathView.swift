@@ -32,6 +32,7 @@ struct BlockMathView: UIViewRepresentable {
   func updateUIView(_ uiView: MTMathUILabel, context: Context) {
     uiView.textColor = UIColor(color)
     uiView.latex = latex
+    uiView.fontSize = pointSize
   }
 
   func sizeThatFits(_ proposal: ProposedViewSize, uiView: MTMathUILabel, context: Context) -> CGSize? {
@@ -68,6 +69,7 @@ struct BlockMathView: NSViewRepresentable {
   func updateNSView(_ nsView: MTMathUILabel, context: Context) {
     nsView.textColor = NSColor(color)
     nsView.latex = latex
+    nsView.fontSize = pointSize
   }
 
   func sizeThatFits(_ proposal: ProposedViewSize, nsView: MTMathUILabel, context: Context) -> CGSize? {

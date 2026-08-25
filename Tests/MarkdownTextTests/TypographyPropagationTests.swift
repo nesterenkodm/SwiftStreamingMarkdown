@@ -83,5 +83,46 @@ final class TypographyPropagationTests: XCTestCase {
       XCTFail("Renderable should be a paragraph")
     }
   }
+
+  func testInlineMathUsesConfiguredScaleAndInheritedFont() async throws {
+    let document = await parser.parse(text: "Inline \\(x^2\\)")
+    let bodySize: CGFloat = 20
+    let bodyFonts = TextFonts(
+      normal: .systemFont(ofSize: bodySize),
+      italic: .italicSystemFont(ofSize: bodySize),
+      bold: .boldSystemFont(ofSize: bodySize),
+      boldItalic: .boldSystemFont(ofSize: bodySize)
+    )
+    let config = MarkdownRenderConfig(
+      paragraphStyle: .init(textFonts: bodyFonts, textColor: .primary),
+      mathStyle: .init(inlineScale: 1.08, displayScale: 1)
+    )
+
+    guard case .paragraph(_, let content) = document.convert(with: config).first,
+          let attachment = content.attribute(
+            .attachment,
+            at: content.length - 1,
+            effectiveRange: nil
+          ) as? NSTextAttachment,
+          let payload = attachment.contents,
+          let attachmentData = try? JSONDecoder().decode(LatexAttachmentData.self, from: payload) else {
+      XCTFail("Expected an encoded inline formula attachment")
+      return
+    }
+
+    XCTAssertEqual(attachmentData.fontSize, bodySize * 1.08, accuracy: 0.001)
+  }
+
+  func testMathStyleBuilderPreservesIndependentScales() {
+    let mathStyle = MarkdownRenderConfig.MarkdownMathStyle(
+      inlineScale: 1.08,
+      displayScale: 1.12
+    )
+    let config = MarkdownRenderConfig.default
+      .withMathStyle(value: mathStyle)
+      .withBlockSpacing(value: 12)
+
+    XCTAssertEqual(config.mathStyle, mathStyle)
+  }
 }
 #endif

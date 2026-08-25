@@ -27,6 +27,8 @@ public struct MarkdownRenderConfig: Hashable, Sendable {
   public let tableStyle: MarkdownTableTextStyle
   /// Styling applied to inline runs such as bold, links, and inline code.
   public let inlineStyle: MarkdownInlineTextStyle
+  /// Relative sizing applied to inline and block LaTeX formulas.
+  public let mathStyle: MarkdownMathStyle
   /// Optional context-menu provider invoked on text selection. `nil` disables
   /// the custom menu and falls back to the system menu.
   public let textContextMenu: TextContextMenu?
@@ -65,6 +67,20 @@ public struct MarkdownRenderConfig: Hashable, Sendable {
     public init(textFonts: TextFonts, textColor: Color) {
       self.textFonts = textFonts
       self.textColor = textColor
+    }
+  }
+
+  /// Relative sizing for LaTeX formulas.
+  public struct MarkdownMathStyle: Hashable, Sendable {
+    /// Multiplier applied to the inherited font size of inline formulas.
+    public let inlineScale: CGFloat
+    /// Multiplier applied to the paragraph font size of block formulas.
+    public let displayScale: CGFloat
+
+    /// Create a formula style with independent inline and block scaling.
+    public init(inlineScale: CGFloat = 1, displayScale: CGFloat = 1) {
+      self.inlineScale = inlineScale
+      self.displayScale = displayScale
     }
   }
 
@@ -266,6 +282,9 @@ public struct MarkdownRenderConfig: Hashable, Sendable {
     codeUnderlineColor: Color.Theme.Component.CodeBlock.Foreground.Header
   )
 
+  /// Default formula sizing preserves the inherited text size.
+  public static let defaultMathStyle = MarkdownMathStyle()
+
   /// Create a render config. Every parameter has a sensible default that
   /// matches the bundled `Typography`/`Color.Theme` palette, so callers can
   /// override only the fields they care about.
@@ -277,6 +296,7 @@ public struct MarkdownRenderConfig: Hashable, Sendable {
     paragraphStyle: MarkdownTextStyle = MarkdownRenderConfig.defaultParagraphStyle,
     tableStyle: MarkdownTableTextStyle = MarkdownRenderConfig.defaultTableStyle,
     inlineStyle: MarkdownInlineTextStyle = MarkdownRenderConfig.defaultInlineStyle,
+    mathStyle: MarkdownMathStyle = MarkdownRenderConfig.defaultMathStyle,
     textContextMenu: TextContextMenu? = nil,
     citationConfig: CitationConfig = .default,
     codeBlockConfig: CodeBlockConfig = .default,
@@ -292,6 +312,7 @@ public struct MarkdownRenderConfig: Hashable, Sendable {
     self.paragraphStyle = paragraphStyle
     self.tableStyle = tableStyle
     self.inlineStyle = inlineStyle
+    self.mathStyle = mathStyle
     self.textContextMenu = textContextMenu
     self.citationConfig = citationConfig
     self.codeBlockConfig = codeBlockConfig
