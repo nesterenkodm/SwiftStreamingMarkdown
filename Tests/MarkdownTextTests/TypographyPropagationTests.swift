@@ -91,7 +91,9 @@ final class TypographyPropagationTests: XCTestCase {
       normal: .systemFont(ofSize: bodySize),
       italic: .italicSystemFont(ofSize: bodySize),
       bold: .boldSystemFont(ofSize: bodySize),
-      boldItalic: .boldSystemFont(ofSize: bodySize)
+      boldItalic: .boldSystemFont(ofSize: bodySize),
+      preferredLetterSpacing: nil,
+      preferredLineHeight: nil
     )
     let config = MarkdownRenderConfig(
       paragraphStyle: .init(textFonts: bodyFonts, textColor: .primary),
@@ -100,7 +102,7 @@ final class TypographyPropagationTests: XCTestCase {
 
     guard case .paragraph(_, let content) = document.convert(with: config).first,
           let attachment = content.attribute(
-            .attachment,
+            NSAttributedString.Key.attachment,
             at: content.length - 1,
             effectiveRange: nil
           ) as? NSTextAttachment,
