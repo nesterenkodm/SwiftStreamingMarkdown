@@ -40,6 +40,8 @@ struct BlockMathView: UIViewRepresentable {
     view.color = UIColor(color)
     view.fontSize = pointSize
     view.mathStyle = .display
+    view.isAccessibilityElement = true
+    view.accessibilityLabel = latex
   }
 }
 
@@ -77,6 +79,8 @@ struct BlockMathView: NSViewRepresentable {
     view.color = NSColor(color)
     view.fontSize = pointSize
     view.mathStyle = .display
+    view.setAccessibilityElement(true)
+    view.setAccessibilityLabel(latex)
   }
 }
 

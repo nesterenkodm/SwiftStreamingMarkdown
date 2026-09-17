@@ -106,6 +106,13 @@ final class LatexViewProvider: NSTextAttachmentViewProvider {
     mathView.fontSize = fontSize
     mathView.mathStyle = .text
     mathView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+    #if canImport(UIKit)
+    mathView.isAccessibilityElement = true
+    mathView.accessibilityLabel = latex
+    #elseif canImport(AppKit)
+    mathView.setAccessibilityElement(true)
+    mathView.setAccessibilityLabel(latex)
+    #endif
     self.view = mathView
   }
 
