@@ -1,4 +1,5 @@
 {
+  "originHash" : "18447e4400c938b2b627cbb68bc7802b202224ecf982c1c513d536eb86c5de2a",
   "pins" : [
     {
       "identity" : "equatable",
@@ -18,11 +19,12 @@
       }
     },
     {
-      "identity" : "iosmath",
+      "identity" : "swatex",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/junyan72/iosMath",
+      "location" : "https://github.com/PhraseHQ/SwaTex.git",
       "state" : {
-        "revision" : "ba9ab7729b151329c54fd895a7c1859981d9484c"
+        "revision" : "2b38d0b9b9b9466ac1302ab93b37f3b90b8c74fc",
+        "version" : "0.5.0"
       }
     },
     {
@@ -89,5 +91,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

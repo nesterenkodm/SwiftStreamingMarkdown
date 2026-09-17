@@ -3,7 +3,7 @@
 //  Licensed under the MIT License. See LICENSE in the project root for license information.
 //
 
-import iosMath
+import SwaTexRender
 @testable import SwiftStreamingMarkdown
 import XCTest
 
@@ -27,36 +27,18 @@ final class LatexAttachmentLayoutTests: XCTestCase {
   }
 
   private func metrics(for latex: String) throws -> (descent: CGFloat, baselinePosition: CGFloat) {
-    let label = MTMathUILabel()
-    label.latex = latex
-    label.displayErrorInline = false
-    label.fontSize = 17
+    let view = SwaTexView()
+    view.latex = latex
+    view.fontSize = 17
+    view.mathStyle = .text
 
-    #if canImport(UIKit)
-    label.sizeToFit()
-    label.layoutIfNeeded()
-    let size = label.bounds.size
-    #elseif canImport(AppKit)
-    let size = label.intrinsicContentSize
-    label.frame.size = size
-    label.layoutSubtreeIfNeeded()
-    #endif
-
-    let displayList = try XCTUnwrap(label.displayList)
-    let attachmentHeight = size.height.rounded(.up) + 1
-    let bottomPadding = max(
-      0,
-      attachmentHeight - displayList.ascent - displayList.descent
-    ) / 2
-    let offset = LatexAttachmentLayout.baselineOffset(
-      displayAscent: displayList.ascent,
-      displayDescent: displayList.descent,
-      attachmentHeight: attachmentHeight
-    )
+    _ = view.intrinsicContentSize
+    let descent = view.baselineFromBottom
+    let offset = -descent
 
     return (
-      displayList.descent,
-      offset + displayList.descent + bottomPadding
+      descent,
+      offset + descent
     )
   }
 }

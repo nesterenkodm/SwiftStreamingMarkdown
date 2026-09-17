@@ -569,7 +569,7 @@ let tableviewRowsMock: [[NSMutableAttributedString]] =  [
 })
 
 #Preview("Table with Mixed Content", body: {
-  // Create citation safely (NO LaTeX to avoid iosMath bundle issues)
+  // Create citation safely without invoking the math renderer.
   guard let citationData = CitationCoder.default.decode(
     linkDestination: "http://example.com?citationMarker=9F742443&citationTitle=Source&citationA11yValue=Primary%20Source"
   ),
@@ -618,7 +618,7 @@ let tableviewRowsMock: [[NSMutableAttributedString]] =  [
 })
 
 #Preview("Mixed Content - Dark Mode", body: {
-  // Create citation safely (NO LaTeX to avoid iosMath bundle issues)
+  // Create citation safely without invoking the math renderer.
   guard let citationData = CitationCoder.default.decode(
     linkDestination: "http://example.com?citationMarker=9F742443&citationTitle=Source&citationA11yValue=Primary%20Source"
   ),

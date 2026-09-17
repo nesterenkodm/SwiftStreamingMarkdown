@@ -4,7 +4,6 @@
 //
 
 #if canImport(UIKit)
-import iosMath
 import SwiftUI
 import UIKit
 import UniformTypeIdentifiers

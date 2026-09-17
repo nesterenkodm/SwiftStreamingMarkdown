@@ -4,7 +4,7 @@
 //
 
 import Foundation
-import iosMath
+import SwaTexRender
 import SwiftUI
 #if canImport(UIKit)
 import UIKit
@@ -100,13 +100,13 @@ final class LatexViewProvider: NSTextAttachmentViewProvider {
   }
 
   override func loadView() {
-    let label = MTMathUILabel()
-    label.latex = latex
-    label.textColor = textColor
-    label.displayErrorInline = false
-    label.fontSize = fontSize
-    label.setContentHuggingPriority(.defaultHigh, for: .vertical)
-    self.view = label
+    let mathView = SwaTexView()
+    mathView.latex = latex
+    mathView.color = textColor
+    mathView.fontSize = fontSize
+    mathView.mathStyle = .text
+    mathView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+    self.view = mathView
   }
 
   override func attachmentBounds(for attributes: [NSAttributedString.Key: Any],
@@ -114,28 +114,12 @@ final class LatexViewProvider: NSTextAttachmentViewProvider {
                                  textContainer: NSTextContainer?,
                                  proposedLineFragment: CGRect,
                                  position: CGPoint) -> CGRect {
-    guard let mathLabel = view as? MTMathUILabel else {
+    guard let mathView = view as? SwaTexView else {
       return .zero
     }
-    #if canImport(UIKit)
-    mathLabel.sizeToFit()
-    mathLabel.layoutIfNeeded()
-    let size = mathLabel.bounds.size
-    #elseif canImport(AppKit)
-    let size = mathLabel.intrinsicContentSize
-    mathLabel.layoutSubtreeIfNeeded()
-    #endif
-    let height = size.height.rounded(.up) + 1.0
-    let yOffset: CGFloat
-    if let displayList = mathLabel.displayList {
-      yOffset = LatexAttachmentLayout.baselineOffset(
-        displayAscent: displayList.ascent,
-        displayDescent: displayList.descent,
-        attachmentHeight: height
-      )
-    } else {
-      yOffset = 0
-    }
+    let size = mathView.intrinsicContentSize
+    let height = size.height.rounded(.up)
+    let yOffset = -mathView.baselineFromBottom
     return CGRect(x: 0, y: yOffset, width: size.width.rounded(.up), height: height)
   }
 }

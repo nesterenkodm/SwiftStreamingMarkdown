@@ -42,7 +42,7 @@ private extension ColorScheme {
 
 /// Custom snapshotting that places the view in a real NSWindow and captures it
 /// using CGWindowListCreateImage — the same composited output the window server
-/// produces. This correctly captures all views including MTMathUILabel.
+/// produces. This correctly captures all views including native math views.
 extension Snapshotting where Value == NSView, Format == NSImage {
   static func layerImage(
     precision: Float = 1,

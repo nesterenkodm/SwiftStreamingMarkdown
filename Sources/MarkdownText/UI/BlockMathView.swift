@@ -4,7 +4,7 @@
 //
 
 import SwiftUI
-import iosMath
+import SwaTexRender
 
 #if canImport(UIKit)
 
@@ -19,27 +19,27 @@ struct BlockMathView: UIViewRepresentable {
     self.pointSize = pointSize
   }
 
-  func makeUIView(context: Context) -> MTMathUILabel {
-    let label = MTMathUILabel()
-    label.latex = latex
-    label.textColor = UIColor(color)
-    label.displayErrorInline = false
-    label.fontSize = pointSize
-    label.setContentHuggingPriority(.defaultHigh, for: .vertical)
-    return label
+  func makeUIView(context: Context) -> SwaTexView {
+    let view = SwaTexView()
+    configure(view)
+    view.setContentHuggingPriority(.defaultHigh, for: .vertical)
+    return view
   }
 
-  func updateUIView(_ uiView: MTMathUILabel, context: Context) {
-    uiView.textColor = UIColor(color)
-    uiView.latex = latex
-    uiView.fontSize = pointSize
+  func updateUIView(_ uiView: SwaTexView, context: Context) {
+    configure(uiView)
   }
 
-  func sizeThatFits(_ proposal: ProposedViewSize, uiView: MTMathUILabel, context: Context) -> CGSize? {
-    uiView.sizeToFit()
-    let size = uiView.bounds.size
-    // It's a known issue that MTMathUILabel may be cut off for some short statement. Manually add 1 to the height fix it.
-    return CGSize(width: size.width.rounded(.up), height: size.height.rounded(.up) + 1)
+  func sizeThatFits(_ proposal: ProposedViewSize, uiView: SwaTexView, context: Context) -> CGSize? {
+    let size = uiView.intrinsicContentSize
+    return CGSize(width: size.width.rounded(.up), height: size.height.rounded(.up))
+  }
+
+  private func configure(_ view: SwaTexView) {
+    view.latex = latex
+    view.color = UIColor(color)
+    view.fontSize = pointSize
+    view.mathStyle = .display
   }
 }
 
@@ -56,25 +56,27 @@ struct BlockMathView: NSViewRepresentable {
     self.pointSize = pointSize
   }
 
-  func makeNSView(context: Context) -> MTMathUILabel {
-    let label = MTMathUILabel()
-    label.latex = latex
-    label.textColor = NSColor(color)
-    label.displayErrorInline = false
-    label.fontSize = pointSize
-    label.setContentHuggingPriority(.defaultHigh, for: .vertical)
-    return label
+  func makeNSView(context: Context) -> SwaTexView {
+    let view = SwaTexView()
+    configure(view)
+    view.setContentHuggingPriority(.defaultHigh, for: .vertical)
+    return view
   }
 
-  func updateNSView(_ nsView: MTMathUILabel, context: Context) {
-    nsView.textColor = NSColor(color)
-    nsView.latex = latex
-    nsView.fontSize = pointSize
+  func updateNSView(_ nsView: SwaTexView, context: Context) {
+    configure(nsView)
   }
 
-  func sizeThatFits(_ proposal: ProposedViewSize, nsView: MTMathUILabel, context: Context) -> CGSize? {
+  func sizeThatFits(_ proposal: ProposedViewSize, nsView: SwaTexView, context: Context) -> CGSize? {
     let size = nsView.intrinsicContentSize
-    return CGSize(width: size.width.rounded(.up), height: size.height.rounded(.up) + 1)
+    return CGSize(width: size.width.rounded(.up), height: size.height.rounded(.up))
+  }
+
+  private func configure(_ view: SwaTexView) {
+    view.latex = latex
+    view.color = NSColor(color)
+    view.fontSize = pointSize
+    view.mathStyle = .display
   }
 }
 
