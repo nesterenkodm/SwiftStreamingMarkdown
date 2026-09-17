@@ -163,7 +163,7 @@ final class LaTexPreProcessorImpl: LaTexPreProcessor {
   func processInlineMath(input: String, rules: Set<MarkdownParseOption.LatexMatching>) -> String {
     guard rules.contains(.inlineSlashBracket) else { return input }
     return input.replacing(Self.inlineParenthesisMath, with: { match in
-      let latex = String(match[Self.latexRef]).filteringUnsupportedSyntaxes()
+      let latex = String(match[Self.latexRef])
       return "`\\(\(latex)\\)`"
     })
   }
@@ -179,65 +179,8 @@ final class LaTexPreProcessorImpl: LaTexPreProcessor {
   }
 
   private static func buildCodeBlock(indentation: Substring, latex: Substring) -> String {
-    let processedLatex = latex.trimmingCharacters(in: .newlines).filteringUnsupportedSyntaxes()
+    let processedLatex = latex.trimmingCharacters(in: .newlines)
     let nextLineIntendation = latex.hasPrefix(Self.newline) ? "" : indentation
     return "\(indentation)```\(Self.customCodeType)\(Self.newline)\(nextLineIntendation)\(processedLatex)\(Self.newline)\(indentation)```"
-  }
-}
-
-extension String {
-
-  func filteringUnsupportedSyntaxes() -> String {
-    return self
-      .strippingBoxedLatex()
-      .replacingfrac()
-      .replacingPrime()
-      .replacingVector()
-      .replacingImplies()
-      .replacingHarpoons()
-      .replacingDots()
-      .strippingBracketSizeCommands()
-  }
-
-  /// This strips "\boxed" string from a given latex. This is because our rendering engine does not support \boxed{...} yet.
-  func strippingBoxedLatex() -> String {
-    return self.replacing(LaTexPreProcessorImpl.boxedLatex, with: "")
-  }
-
-  /// Replacing `dfrac` and `tfac` which is unsupported into simple `frac`
-  func replacingfrac() -> String {
-    return self
-      .replacing(LaTexPreProcessorImpl.dfracLatex, with: "\\frac")
-      .replacing(LaTexPreProcessorImpl.tfracLatex, with: "\\frac")
-  }
-
-  /// Replacing `'` which is unsupported into `^prime`
-  func replacingPrime() -> String {
-    return self.replacing(LaTexPreProcessorImpl.primeLatex, with: "^\\prime")
-  }
-
-  /// Replacing `overrightarrow` which is unsupported into `vec`
-  func replacingVector() -> String {
-    return self.replacing(LaTexPreProcessorImpl.vectorLatex, with: "\\vec")
-  }
-
-  /// Replacing `implies` which is unsupported into `Rightarrow`
-  func replacingImplies() -> String {
-    return self.replacing(LaTexPreProcessorImpl.rightArrowLatex, with: "\\Rightarrow")
-  }
-
-  /// Replacing `harpoons` which is unsupported into `Leftrightarrow`
-  func replacingHarpoons() -> String {
-    return self.replacing(LaTexPreProcessorImpl.harpoonsLatex, with: "\\Leftrightarrow")
-  }
-
-  /// Replacing `dots` which is unsupported into `ldots`
-  func replacingDots() -> String {
-    return self.replacing(LaTexPreProcessorImpl.dotsLatex, with: "\\ldots")
-  }
-
-  /// Stripping commands to specify bracket sizes(`\Biggl` etc) which is unsupported
-  func strippingBracketSizeCommands() -> String {
-    return self.replacing(LaTexPreProcessorImpl.bracketSize, with: "")
   }
 }

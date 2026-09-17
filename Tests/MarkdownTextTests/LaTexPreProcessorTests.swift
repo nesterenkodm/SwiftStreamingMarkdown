@@ -171,7 +171,7 @@ final class LaTexPreProcessorTests: XCTestCase {
     ```
 
     ```blockmath
-    f^\\prime(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}
+    f'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}
     ```
 
     ```blockmath
@@ -258,22 +258,30 @@ final class LaTexPreProcessorTests: XCTestCase {
     let processed = preprocessor.process(input: text)
     let expected = """
     ```blockmath
-    \\varphi(x) = f(x) - (f(a) + f^\\prime(a)(x-a)).
+    \\varphi(x) = f(x) - \\big(f(a) + f'(a)(x-a)\\big).
     ```
 
-    - Vector `\\(\\vec{FA} = (a+c,0)\\)`
+    - Vector `\\(\\overrightarrow{FA} = (a+c,0)\\)`
 
     ```blockmath
-    2+2(2q-1) = 2q^2 \\Rightarrow 2+4q-2 = 2q^2 \\Rightarrow 4q = 2q^2 \\Rightarrow q^2 - 2q = 0.
+    2+2(2q-1) = 2q^2 \\implies 2+4q-2 = 2q^2 \\implies 4q = 2q^2 \\implies q^2 - 2q = 0.
     ```
 
     ```blockmath
-    Fe^{3+}_{(aq)} + xCl^-_{(aq)} \\Leftrightarrow [FeCl_x]^{3-x}_{(aq)} \\quad (x = 1,2,3,4)
+    Fe^{3+}_{(aq)} + xCl^-_{(aq)} \\rightleftharpoons [FeCl_x]^{3-x}_{(aq)} \\quad (x = 1,2,3,4)
     ```
 
-    `\\(a_1, \\ldots, a_n\\)`
+    `\\(a_1, \\dots, a_n\\)`
     """
     XCTAssertEqual(expected, processed)
+  }
+
+  func testSwaTexSupportedCommandsRemainUnchanged() {
+    let input = #"Inline \\(\\boxed{\\dfrac{1}{2}}\\) and \\[\\begin{align}a&=b\\\\c&=d\\end{align}\\]"#
+    let processed = preprocessor.process(input: input)
+
+    XCTAssertTrue(processed.contains(#"\\boxed{\\dfrac{1}{2}}"#))
+    XCTAssertTrue(processed.contains(#"\\begin{align}a&=b\\\\c&=d\\end{align}"#))
   }
 
   // MARK: - Matching-rule gating
