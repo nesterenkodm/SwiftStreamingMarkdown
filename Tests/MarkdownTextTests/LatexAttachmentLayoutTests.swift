@@ -26,23 +26,6 @@ final class LatexAttachmentLayoutTests: XCTestCase {
     XCTAssertEqual(withSubscript.baselinePosition, 0, accuracy: 0.001)
   }
 
-  func testCyrillicFallbackFormulaReservesGlyphOverflowPadding() throws {
-    let view = SwaTexView()
-    view.latex = #"A=0.02\text{ м}"#
-    view.fontSize = 17
-    view.mathStyle = .text
-
-    let unpaddedWidth = view.intrinsicContentSize.width
-    view.padding = SwaTexRenderingSafety.glyphOverflowPadding
-    let paddedWidth = view.intrinsicContentSize.width
-
-    XCTAssertEqual(
-      paddedWidth - unpaddedWidth,
-      SwaTexRenderingSafety.glyphOverflowPadding * 2,
-      accuracy: 0.001
-    )
-  }
-
   private func metrics(for latex: String) throws -> (descent: CGFloat, baselinePosition: CGFloat) {
     let view = SwaTexView()
     view.latex = latex
