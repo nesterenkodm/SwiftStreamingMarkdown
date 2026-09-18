@@ -105,6 +105,7 @@ final class LatexViewProvider: NSTextAttachmentViewProvider {
     mathView.color = textColor
     mathView.fontSize = fontSize
     mathView.mathStyle = .text
+    mathView.padding = SwaTexRenderingSafety.glyphOverflowPadding
     mathView.setContentHuggingPriority(.defaultHigh, for: .vertical)
     #if canImport(UIKit)
     mathView.isAccessibilityElement = true

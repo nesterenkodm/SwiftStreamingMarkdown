@@ -40,6 +40,7 @@ struct BlockMathView: UIViewRepresentable {
     view.color = UIColor(color)
     view.fontSize = pointSize
     view.mathStyle = .display
+    view.padding = SwaTexRenderingSafety.glyphOverflowPadding
     view.isAccessibilityElement = true
     view.accessibilityLabel = latex
   }
@@ -79,9 +80,17 @@ struct BlockMathView: NSViewRepresentable {
     view.color = NSColor(color)
     view.fontSize = pointSize
     view.mathStyle = .display
+    view.padding = SwaTexRenderingSafety.glyphOverflowPadding
     view.setAccessibilityElement(true)
     view.setAccessibilityLabel(latex)
   }
 }
 
 #endif
+
+enum SwaTexRenderingSafety {
+  /// SwaTex's fallback-font metrics can place right-side glyph ink just outside
+  /// the nominal advance width, notably for Cyrillic text inside `\\text{...}`.
+  /// The view clips its own bounds, so reserve a symmetric inset at the renderer.
+  static let glyphOverflowPadding: CGFloat = 2
+}
